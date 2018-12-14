@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import pretty_midi
 import numpy as np
+from gensim.models import word2vec
 
 num_classes = 7
 note_shift = 25
@@ -80,6 +81,15 @@ def base36encode(matrix):
             base36 = alphabet[int(i)] + base36
         np.append(matrix36, base36)
     return matrix36
+
+
+# Converts a base36 matrix into a Word2Vec encoded matrix
+def sequenceEncoder(matrix, chords):
+    model = word2vec.Word2Vec(matrix, size=100, window=500, min_count=100,
+                              sample=1e-3, iter=50, workers=2)
+    model.train(chords, total_examples=matrix.shape[0], total_words=1,  epochs=10)
+
+    return model
 
 
 for instrument in pm.instruments:
