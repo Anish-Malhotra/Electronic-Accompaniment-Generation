@@ -75,11 +75,12 @@ def base36encode(matrix):
         bin_note = 0
 
         bin_zero = list('0' * max_note)
-        for i in range(0,max_note):
+        for i in range(0, max_note):
             if note_seq[i] == 1:
                 bin_zero[i] = '1'
+        bin_zero.reverse()
 
-        dec_val = int("".join(bin_zero),2)
+        dec_val = int("".join(bin_zero), 2)
 
         if 0 <= dec_val < len(alphabet):
             base36 = alphabet[dec_val]
@@ -88,7 +89,7 @@ def base36encode(matrix):
             dec_val, i = divmod(dec_val, len(alphabet))
             base36 = alphabet[i] + base36
 
-        #print(base36)
+        # print(base36)
         np.append(matrix36, base36)
     return matrix36
 
@@ -97,9 +98,31 @@ def base36encode(matrix):
 def sequenceEncoder(matrix, chords):
     model = word2vec.Word2Vec(matrix, size=100, window=500, min_count=100,
                               sample=1e-3, iter=50, workers=2)
-    model.train(chords, total_examples=matrix.shape[0], total_words=1,  epochs=10)
+    model.train(chords, total_examples=matrix.shape[0], total_words=1, epochs=10)
 
     return model
+
+
+def chordlist():
+    Cmaj = bin(145)
+    Cmin = bin(145 + 12)
+    Dmaj = bin(580)
+    Dmin = bin(580 + 12)
+    Emaj = bin(2320)
+    Emin = bin(2320 + 12)
+    Fmaj = bin(545)
+    Fmin = bin(545 + 12)
+    Gmaj = bin(2180)
+    Gmin = bin(2180 + 12)
+    Amaj = bin(530)
+    Amin = bin(530 + 12)
+    Bmaj = bin(2120)
+    Bmin = bin(2120 + 12)
+
+    chords = np.empty(112)  # 14 maj/min chords per octave for 8 octaves
+    np.append(chords, [Cmaj, Cmin, Dmaj, Dmin, Emaj, Emin, Fmaj, Fmin, Gmaj, Gmin, Amaj, Amin, Bmaj, Bmin])
+    for i in range(len(chords)):
+        np.append(chords, [Cmaj*48, Cmin*48, Dmaj*48, Dmin*48, Emaj*48, Emin*48, Fmaj*48, Fmin*48, Gmaj*48, Gmin*48, Amaj*48, Amin*48, Bmaj*48, Bmin*48])
 
 
 for instrument in pm.instruments:
