@@ -10,7 +10,7 @@ max_note = 77
 filename = 'Deadmau5 - Jaded.mid'
 filename2 = 'calvin_harris-feel_so_close.mid'
 
-pm = pretty_midi.PrettyMIDI(filename)
+pm = pretty_midi.PrettyMIDI(filename2)
 
 
 def getInstrumentClass(instrNumber):
@@ -67,17 +67,27 @@ def matrixClass(x):
 def base36encode(matrix):
     alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-    matrix36 = np.empty(matrix.shape[0], dtype=str, order='C')
+    matrix36 = np.empty(matrix.shape[0], dtype='S6', order='C')
     for tick in range(matrix.shape[0]):
         base36 = ''
-        noteseq = matrix[tick]
+        note_seq = matrix[tick]
         bin_note = 0
-        for i, bit in enumerate(noteseq):
-            bin_note += bit*2**i
-        bin_note = bin(bin_note)
-        while bin_note:
-            bin_note, i = divmod(bin_note, len(alphabet))
-            base36 = alphabet[int(i)] + base36
+
+        bin_zero = list('0' * max_note)
+        for i in range(0,max_note):
+            if note_seq[i] == 1:
+                bin_zero[i] = '1'
+
+        dec_val = int("".join(bin_zero),2)
+
+        if 0 <= dec_val < len(alphabet):
+            base36 = alphabet[dec_val]
+
+        while dec_val != 0:
+            dec_val, i = divmod(dec_val, len(alphabet))
+            base36 = alphabet[i] + base36
+
+        #print(base36)
         np.append(matrix36, base36)
     return matrix36
 
@@ -86,6 +96,4 @@ for instrument in pm.instruments:
     matrix = matrixClass(getInstrumentClass(instrument.program))
     fillNotes(matrix, instrument)
 
-mat36 = base36encode(matrix)
-# print(matrix_brass)
-np.savetxt('output2.txt', mat36)
+mat36 = base36encode(matrix_strings)
