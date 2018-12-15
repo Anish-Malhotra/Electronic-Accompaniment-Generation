@@ -104,29 +104,33 @@ def sequenceEncoder(matrix, chords):
 
 
 def chordlist():
-    Cmaj = bin(145)
-    Cmin = bin(145 + 12)
-    Dmaj = bin(580)
-    Dmin = bin(580 + 12)
-    Emaj = bin(2320)
-    Emin = bin(2320 + 12)
-    Fmaj = bin(545)
-    Fmin = bin(545 + 12)
-    Gmaj = bin(2180)
-    Gmin = bin(2180 + 12)
-    Amaj = bin(530)
-    Amin = bin(530 + 12)
-    Bmaj = bin(2120)
-    Bmin = bin(2120 + 12)
+    Cmaj = 145
+    Cmin = 137
+    Dmaj = 580
+    Dmin = 548
+    Emaj = 2320
+    Emin = 2192
+    Fmaj = 545
+    Fmin = 529
+    Gmaj = 2180
+    Gmin = 2116
+    Amaj = 530
+    Amin = 522
+    Bmaj = 2120
+    Bmin = 2088
 
-    chords = np.empty(112)  # 14 maj/min chords per octave for 8 octaves
-    np.append(chords, [Cmaj, Cmin, Dmaj, Dmin, Emaj, Emin, Fmaj, Fmin, Gmaj, Gmin, Amaj, Amin, Bmaj, Bmin])
-    for i in range(len(chords)):
-        np.append(chords, [Cmaj*48, Cmin*48, Dmaj*48, Dmin*48, Emaj*48, Emin*48, Fmaj*48, Fmin*48, Gmaj*48, Gmin*48, Amaj*48, Amin*48, Bmaj*48, Bmin*48])
+    # 14 maj/min chords per octave for 8 octaves
+    chords = [Cmaj, Cmin, Dmaj, Dmin, Emaj, Emin, Fmaj, Fmin, Gmaj, Gmin, Amaj, Amin, Bmaj, Bmin]
+
+    for i in range(1, 8):  # Want to insert chords for octaves 1 to 8
+        chords += [Cmaj << 12, Cmin << 12, Dmaj << 12, Dmin << 12, Emaj << 12, Emin << 12, Fmaj << 12, Fmin << 12, Gmaj << 12, Gmin << 12, Amaj << 12, Amin << 12, Bmaj << 12, Bmin << 12]
+    return chords
 
 
 for instrument in pm.instruments:
     matrix = matrixClass(getInstrumentClass(instrument.program))
     fillNotes(matrix, instrument)
 
-mat36 = base36encode(matrix_strings)
+# mat36 = base36encode(matrix_strings)
+
+np.savetxt('chordslist.txt', chordlist())
