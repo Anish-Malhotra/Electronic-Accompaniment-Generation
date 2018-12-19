@@ -7,10 +7,11 @@ num_classes = 7
 note_shift = 25
 max_note = 77
 
-#filename = 'Deadmau5 - Jaded.mid'
-#filename2 = 'calvin_harris-feel_so_close.mid'
 
-#pm = pretty_midi.PrettyMIDI(filename)
+# filename = 'Deadmau5 - Jaded.mid'
+# filename2 = 'calvin_harris-feel_so_close.mid'
+
+# pm = pretty_midi.PrettyMIDI(filename)
 
 def load(filename):
     global pm
@@ -25,6 +26,7 @@ def load(filename):
 
     init_matrices()
     return True
+
 
 def init_matrices():
     global num_instruments
@@ -58,16 +60,16 @@ def init_matrices():
     b36_matrix_brass = np.empty(num_ticks, dtype=str, order='C')
     global b36_matrix_ensemble
     b36_matrix_ensemble = np.empty(num_ticks, dtype=str, order='C')
-    
+
 
 def get_instrument_class(instrNumber):
     if ((instrNumber in range(25, 33)) or (instrNumber in range(41, 53))):
         return 'String'
-    elif ((instrNumber in range(1, 9)) or (instrNumber in range(17, 25)) or (instrNumber in range(81,97))):
+    elif ((instrNumber in range(1, 9)) or (instrNumber in range(17, 25)) or (instrNumber in range(81, 97))):
         return 'Melody'
     elif ((instrNumber in range(9, 17)) or (instrNumber in range(113, 121))):
         return 'Percussion'
-    elif ((instrNumber in range(58, 62)) or (instrNumber in range(33,41))):
+    elif ((instrNumber in range(58, 62)) or (instrNumber in range(33, 41))):
         return 'Bass'
     elif (instrNumber in range(62, 65)):
         return 'Brass'
@@ -75,6 +77,7 @@ def get_instrument_class(instrNumber):
         return 'Ensemble'
     else:
         return ''
+
 
 def fill_notes(matrix, instrument):
     note_seq = instrument.notes
@@ -84,6 +87,7 @@ def fill_notes(matrix, instrument):
             end_tick = pm.time_to_tick(note.end)
             for tick in range(start_tick, end_tick):
                 matrix[tick][note.pitch - note_shift] = 1
+
 
 def matrix_class(x):
     return {
@@ -95,6 +99,7 @@ def matrix_class(x):
         'Ensemble': matrix_ensemble,
     }[x]
 
+
 def b36_matrix_class(x):
     return {
         'String': b36_matrix_strings,
@@ -105,6 +110,7 @@ def b36_matrix_class(x):
         'Ensemble': b36_matrix_ensemble,
     }[x]
 
+
 def base36encode(matrix36, matrix):
     alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
@@ -114,11 +120,11 @@ def base36encode(matrix36, matrix):
         bin_note = 0
 
         bin_zero = list('0' * max_note)
-        for i in range(0,max_note):
+        for i in range(0, max_note):
             if note_seq[i] == 1:
                 bin_zero[i] = '1'
 
-        dec_val = int("".join(bin_zero),2)
+        dec_val = int("".join(bin_zero), 2)
 
         if 0 <= dec_val < len(alphabet):
             base36 = alphabet[dec_val]
@@ -127,8 +133,9 @@ def base36encode(matrix36, matrix):
             dec_val, i = divmod(dec_val, len(alphabet))
             base36 = alphabet[i] + base36
 
-        #print(base36)
+        # print(base36)
         np.append(matrix36, base36)
+
 
 def get_ticks():
     for instrument in pm.instruments:
@@ -141,4 +148,5 @@ def get_ticks():
         print("Converting matrix")
         base36encode(b36_matrix, matrix)
         print("Next instrument")
-    return (b36_matrix_strings, b36_matrix_melody, b36_matrix_percussion, b36_matrix_bass, b36_matrix_brass, b36_matrix_ensemble)
+    return (b36_matrix_strings, b36_matrix_melody, b36_matrix_percussion, b36_matrix_bass, b36_matrix_brass,
+            b36_matrix_ensemble)
