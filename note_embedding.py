@@ -24,4 +24,4 @@ def sequenceEncoder(noteEvents, chords):
 
     return model
 
-#  may want to consider using jupyter notebook here instead
+

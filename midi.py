@@ -137,17 +137,7 @@ def base36encode(list36, matrix):
         np.append(list36, base36)
 
 
-def emptyLists():
-    b36_list_strings = []
-    b36_list_melody = []
-    b36_list_percussion = []
-    b36_list_bass = []
-    b36_list_brass = []
-    b36_list_ensemble = []
-
-
 def get_ticks():
-    emptyLists()  # clears all the lists holding our base 36 transformed note events
     for instrument in pm.instruments:
         print("Loading: " + instrument.name)
         instrument_class = get_instrument_class(instrument.program)
