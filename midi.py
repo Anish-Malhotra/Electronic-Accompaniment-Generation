@@ -13,18 +13,21 @@ max_note = 77
 #pm = pretty_midi.PrettyMIDI(filename)
 
 def load(filename):
-    global pm
-    pm = pretty_midi.PrettyMIDI(filename)
+    try:
+        global pm
+        pm = pretty_midi.PrettyMIDI(filename)
 
-    print("loaded songname: " + filename)
+        print("loaded songname: " + filename)
 
-    if pm.get_end_time() < 30:
+        if pm.get_end_time() < 30:
         return False
-    if pm.instruments <= 3:
+        if pm.instruments <= 3:
         return False
 
-    init_matrices()
-    return True
+        init_matrices()
+        return True
+    except:
+        return False
 
 def init_matrices():
     global num_instruments
