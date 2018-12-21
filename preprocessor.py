@@ -65,28 +65,22 @@ buildPreEmbedding()
 
 # Trains the word embedding models for each instrument class
 melodyEmbedding = note_embedding.sequenceEncoder(song_matrix_melody)
-temp_path1 = get_tmpfile("models/melodyEmbedding.model")  # creates a file path
-melodyEmbedding.save(temp_path1)  # save the model
+melodyEmbedding.save("models/melodyEmbedding.model")  # save the model
 
 # stringEmbedding = note_embedding.sequenceEncoder(song_matrix_string)
-# temp_path2 = get_tmpfile("models/stringEmbedding.model")  # creates a file path
-# stringEmbedding.save(temp_path2)  # save the model
+# stringEmbedding.save("models/stringEmbedding.model")  # save the model
 #
 # brassEmbedding = note_embedding.sequenceEncoder(song_matrix_brass)
-# temp_path3 = get_tmpfile("models/brassEmbedding.model")  # creates a file path
-# brassEmbedding.save(temp_path3)  # save the model
+# brassEmbedding.save("models/brassEmbedding.model")  # save the model
 #
 # bassEmbedding = note_embedding.sequenceEncoder(song_matrix_bass)
-# temp_path4 = get_tmpfile("models/bassEmbedding.model")  # creates a file path
-# bassEmbedding.save(temp_path4)  # save the model
+# bassEmbedding.save("models/bassEmbedding.model")  # save the model
 #
 # ensembleEmbedding = note_embedding.sequenceEncoder(song_matrix_ensemble)
-# temp_path5 = get_tmpfile("models/ensembleEmbedding,model")  # creates a file path
-# ensembleEmbedding.save(temp_path5)  # save the model
+# ensembleEmbedding.save("models/ensembleEmbedding.model")  # save the model
 #
 # percussionEmbedding = note_embedding.sequenceEncoder(song_matrix_percussion)
-# temp_path6 = get_tmpfile"models/percussionEmbedding.model")  # creates a file path
-# percussionEmbedding.save(temp_path6)  # save the model
+# percussionEmbedding.save("models/percussionEmbedding.model")  # save the model
 
 
 
