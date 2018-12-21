@@ -21,9 +21,9 @@ def load(filename):
         print("loaded songname: " + filename)
 
         if pm.get_end_time() < 30:
-        return False
+            return False
         if pm.instruments <= 3:
-        return False
+            return False
 
         init_matrices()
         return True

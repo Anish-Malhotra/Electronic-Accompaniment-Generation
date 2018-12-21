@@ -5,7 +5,6 @@
 
 import gensim.models
 from gensim.models import word2vec
-from tempfile import mkstemp  # for saving the model
 import multiprocessing
 
 cores = multiprocessing.cpu_count()  # to be used to speed up running this neural network
@@ -13,15 +12,9 @@ assert gensim.models.word2vec.FAST_VERSION > -1, "This will be painfully slow ot
 
 
 # Uses a base 36 vector of note events to create a word embedding in word2vec
-def sequenceEncoder(noteEvents, chords):
-
-    model = word2vec.Word2Vec(noteEvents, size=100, window=500, min_count=100, sample=1e-3, iter=50, workers=cores)
-    model.train(chords, total_examples=len(noteEvents), total_words=1, epochs=10)
-
-    fs, temp_path = mkstemp("gensim_temp")  # creates a temp file
-
-    model.save(temp_path)  # save the model
+def sequenceEncoder(noteEvents):
+    global model
+    model = word2vec.Word2Vec(noteEvents, size=100, window=10, min_count=100, sample=1e-3, iter=10, workers=cores)
+    model.train(noteEvents, total_examples=noteEvents.shape[0], epochs=10)
 
     return model
-
-
