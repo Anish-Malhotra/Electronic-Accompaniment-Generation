@@ -9,8 +9,8 @@ import pretty_midi
 import numpy as np
 
 num_classes = 7
-note_shift = 25
-max_note = 77
+note_shift = 24
+max_note = 83
 
 
 def load(filename):
@@ -25,11 +25,13 @@ def load(filename):
         if pm.instruments <= 3:
             return False
 
-        init_matrices()
+        #init_matrices()
         return True
     except:
         return False
 
+def get_pm():
+	return pm
 
 def init_matrices():
     global num_instruments
@@ -139,6 +141,8 @@ def base36encode(list36, matrix):
         # print(base36)
         np.append(list36, base36)
 
+def get_maxtick():
+	return pm.time_to_tick(pm.get_end_time())
 
 def get_ticks():
     for instrument in pm.instruments:
