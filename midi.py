@@ -7,6 +7,7 @@ from __future__ import print_function
 
 import pretty_midi
 import numpy as np
+import melody
 
 num_classes = 7
 note_shift = 24
@@ -67,10 +68,10 @@ def init_matrices():
     b36_list_ensemble = []
 
 
-def get_instrument_class(instrNumber):
+def get_instrument_class(instrNumber, melodyNumber):
     if ((instrNumber in range(25, 33)) or (instrNumber in range(41, 53))):
         return 'String'
-    elif ((instrNumber in range(1, 9)) or (instrNumber in range(17, 25)) or (instrNumber in range(81, 97))):
+    elif ((instrNumber in range(1, 9)) or (instrNumber in range(17, 25)) or (instrNumber in range(81, 97)) or (instrNumber == melodyNumber)):
         return 'Melody'
     elif ((instrNumber in range(9, 17)) or (instrNumber in range(113, 121))):
         return 'Percussion'
@@ -145,9 +146,10 @@ def get_maxtick():
 	return pm.time_to_tick(pm.get_end_time())
 
 def get_ticks():
+	melodyNumber = melody.get_melody_instrument(pm)
     for instrument in pm.instruments:
         print("Loading: " + instrument.name)
-        instrument_class = get_instrument_class(instrument.program)
+        instrument_class = get_instrument_class(instrument.program, melodyNumber)
         matrix = matrix_class(instrument_class)
         print("Filling matrix of notes")
         fill_notes(matrix, instrument)
