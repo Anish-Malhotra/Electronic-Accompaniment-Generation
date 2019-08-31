@@ -1,13 +1,27 @@
-# Electronic-Accompaniment-Generation
+# Electronic Music Accompaniment Generation
 
-Team Members:
+## Team Members:
+
 Matthew Avallone and Anish Malhotra
 
-Summary:
-The goal of this project is given a melody for a song, generate an accompaniment for it. The approach is to phrase this as a machine translation problem, where the melody gets passed through an encoder-decoder LSTM neural network that encodes an input matrix of notes and decodes an output matrix of notes.
+## Summary:
 
-Report:
-Please refer to ProjectReport.pdf for details about the project
+The goal of this project is to develop a deep learning platform that takes a melody for a song and generates an accompaniment for it of different instrument classes (i.e. strings, brass, percussion etc.). The problem is viewed as an instance of neural machine translation, where the melody gets passed through an LSTM encoder-decoder neural network that encodes an input matrix of notes and decodes an output matrix of notes. Each instrument class has its own trained model, due to the unique structure and format of their parts.
 
-Training Data:
-https://drive.google.com/drive/folders/1OsOU83Dq8b4Nwyy6UP9BPGSfFzRs0cBt?usp=sharing
+The songs are stored as MIDI files, with each containing its own "pianoroll" matrix of notes (time_step x num_of_notes). The pianorolls are preprocessed into smaller phrases and are used to train the networks. The output accompaniment for each instrument class is post processed back into a song.
+
+This repo contains Jupyter notebooks for the entire pipeline. The pre/post processing notebooks will be ported to regular Python files soon.
+
+## Training Data (full-length MIDI songs):
+
+https://drive.google.com/drive/folders/1fLKu7bRD4fwAui_uAl-8moguRwuV-DMR?usp=sharing
+
+## Test Data:
+
+Check out test songs folder
+
+## Coming Soon:
+
+* Demos
+* Research Paper
+* Website
