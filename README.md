@@ -10,7 +10,13 @@ The goal of this project is to develop a deep learning platform that takes a mel
 
 The songs are stored as MIDI files, with each containing its own "pianoroll" matrix of notes (time_step x num_of_notes). The pianorolls are preprocessed into smaller phrases and are used to train the networks. Training is done using Google Colab and Kaggle, since we have a limited budget and their compute resources are free. The output accompaniment for each instrument class is post processed back into a song.
 
-This repo contains Jupyter notebooks for the entire pipeline. The pre/post processing notebooks will be ported to regular Python files soon.
+This repo contains Jupyter notebooks for the entire pipeline. The post processing notebook will be ported to regular Python files soon.
+
+## Special Libraries Used:
+
+* pypianoroll
+* pretty_midi
+* suffix_tree
 
 ## Training Data (full-length MIDI songs):
 
