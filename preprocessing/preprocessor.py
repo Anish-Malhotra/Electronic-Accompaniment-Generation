@@ -17,7 +17,7 @@ if __name__ == "__main__":
 	parser.add_argument("--cleaned_folder", required=True, type=str, help="path of the cleaned MIDI input training set")
 	parser.add_argument("--note_shift", required=False, type=int, nargs="?", default=24, help="starting note (shifted from octave -2)")
 	parser.add_argument("--num_of_notes", required=False, type=int, nargs="?", default=83, help="number of notes to use (default=84)")
-	parser.add_argument("--num_measures", required=False, type=float, nargs="?", default=0.25, help="phrase length (number of beats/measures)")
+	parser.add_argument("--num_measures", required=False, type=float, nargs="?", default=0.25, help="number of measures for a phrase")
 	parser.add_argument("--tpqn", required=False, type=int, nargs="?", default=96, help="ticks per quarter note (beat resolution)")
 	args = parser.parse_args()
 	
