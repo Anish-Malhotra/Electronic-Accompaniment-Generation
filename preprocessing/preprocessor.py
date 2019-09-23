@@ -27,6 +27,8 @@ if __name__ == "__main__":
 
 	note_shift = args.note_shift
 	num_of_notes = args.num_of_notes
+	tpqn = args.tpqn
+
 
 	# Lists of pianorolls for each instrument class (num_ticks x num_notes)
 	global strings_pianorolls
@@ -56,6 +58,9 @@ if __name__ == "__main__":
 	i = 0
 	j = 0
 	i_loaded = 0
+
+	# Storing the program number corresponding to the instrument classification
+	# Used for observing distribution and mapping of MIDI instruments to classes
 	melodyNumber = [0]*num_of_files
 	stringsNumber = [0]*num_of_files
 	chordsNumber = [0]*num_of_files
@@ -74,7 +79,7 @@ if __name__ == "__main__":
 	    pr = pypianoroll.parse(midi_folder + filename)
 	    pm_song = pretty_midi.PrettyMIDI(midi_folder + filename)
 
-	    if(pm_song.resolution == 96): # need the file resolution to be constant
+	    if(pm_song.resolution == tpqn): # need the file resolution to be constant
 	        
 	        tracklist = pr.tracks
 	        for t, track in enumerate(tracklist):
@@ -152,7 +157,6 @@ if __name__ == "__main__":
 #===========================================================
 
 	num_measures = args.num_measures
-	tpqn = args.tpqn
 	phrase_length = int(num_measures*4*tpqn) # in ticks
 
 	X_strings_phrases, strings_phrases = utils.phrases(strings_pianorolls, phrase_length)
