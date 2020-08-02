@@ -21,7 +21,7 @@ if __name__ == "__main__":
 	parser.add_argument("--tpqn", required=False, type=int, nargs="?", default=96, help="ticks per quarter note (beat resolution)")
 	args = parser.parse_args()
 	
-	midi_folder = args.midi_folder
+	midi_folder = args.midi_folder + "\\"
 	os.chdir(midi_folder)
 	num_of_files = len(os.listdir(midi_folder))
 
@@ -174,7 +174,7 @@ if __name__ == "__main__":
 #============= Saving the CLeaned Phrase Data ==============
 #===========================================================
 
-	cleaned_data_folder = args.cleaned_folder
+	cleaned_data_folder = args.cleaned_folder + "\\"
 
 	os.chdir(cleaned_data_folder)
 
