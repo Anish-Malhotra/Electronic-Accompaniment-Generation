@@ -1,10 +1,14 @@
 """
 The purpose of this file is to provide functions useful during preprocessing MIDI input files
 """
-import numpy as np
 
-# maps the label of a midi instrument to a class
+import numpy as np
+import pypianoroll
+
 def readLabels(instrProgram, instrName, is_drum):
+    """
+    Maps the label of a midi track to an instrument class
+    """
     if (is_drum):
         return 'Percussion'
     elif ((instrProgram in range(32,40) or "bass" in instrName.lower())):
@@ -16,8 +20,10 @@ def readLabels(instrProgram, instrName, is_drum):
     else:
         return None
 
-# maps the program number of a midi instrument to a class
 def readNumbers(instrProgram):
+    """
+    Maps the program number of a midi instrument to a class
+    """
     if((instrProgram in range(24,32) or instrProgram in range(40, 52))):
         return 'Strings'
     elif((instrProgram in range(80,96))):
@@ -27,9 +33,10 @@ def readNumbers(instrProgram):
     else:
         return None
 
-# Function used to create list of phrases from a list of pianorolls
 def phrases(instr_pianorolls, phrase_length):
-
+    """
+    Function used to create list of phrases from a list of pianorolls
+    """
     X_instr_phrases = []
     y_instr_phrases = []
 
@@ -52,3 +59,40 @@ def phrases(instr_pianorolls, phrase_length):
             phrase_end += phrase_length
 
     return X_instr_phrases, y_instr_phrases    
+
+def get_metrics(instr_pianorolls, beat_resolution):
+    """
+    Metrics used for evaluating MIDI songs
+    """
+    EB, UPC, QN, DP = 0, 0, 0, 0
+
+    for instr_pianoroll in instr_pianorolls:
+
+        if np.sum(instr_pianoroll) > 0: # skip emp
+            EB += pypianoroll.metrics.empty_beat_rate(instr_pianoroll, beat_resolution)
+            UPC += pypianoroll.metrics.n_pitches_used(instr_pianoroll)
+            try: # dim errors occur here
+                QN += pypianoroll.metrics.qualified_note_rate(instr_pianoroll)
+                DP += pypianoroll.metrics.drum_in_pattern_rate(instr_pianoroll, beat_resolution)
+            except:
+                continue
+
+    EB = EB / len(instr_pianorolls)
+    UPC = UPC / len(instr_pianorolls)
+    QN = QN / len(instr_pianorolls)
+    DP = DP / len(instr_pianorolls)
+
+    return EB, UPC, QN, DP
+
+def get_tonal_distance(instr_pianorolls, melody_pianorolls, beat_resolution):
+    """
+    Metric used for evaluating MIDI songs
+    """
+    TD = 0
+
+    for i in range(0, len(instr_pianorolls)):
+        TD += pypianoroll.metrics.tonal_distance(melody_pianorolls[i], instr_pianorolls[i], beat_resolution)
+
+    TD = int(TD / len(instr_pianorolls))
+
+    return TD
