@@ -120,18 +120,20 @@ def get_metrics(instr_pianorolls, beat_resolution):
     Metrics used for evaluating MIDI songs
     """
     EB, UPC, QN, DP = 0, 0, 0, 0
-
+    nonempty_pianorolls = 0
+    
     for instr_pianoroll in instr_pianorolls:
 
         if np.sum(instr_pianoroll) > 0: # skip emp
+            nonempty_pianorolls += 1
             EB += metrics.empty_beat_rate(instr_pianoroll, beat_resolution)
             UPC += metrics.n_pitches_used(instr_pianoroll)
             QN += qualified_note_rate(instr_pianoroll)
             DP += drum_in_pattern_rate(instr_pianoroll, beat_resolution)
 
-    EB = EB / len(instr_pianorolls)
-    UPC = UPC / len(instr_pianorolls)
-    QN = QN / len(instr_pianorolls)
-    DP = DP / len(instr_pianorolls)
+    EB = EB / nonempty_pianorolls
+    UPC = UPC / nonempty_pianorolls
+    QN = QN / nonempty_pianorolls
+    DP = DP / nonempty_pianorolls
 
     return EB, UPC, QN, DP
