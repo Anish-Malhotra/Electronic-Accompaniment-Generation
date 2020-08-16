@@ -169,12 +169,12 @@ if __name__ == "__main__":
         os.remove(f) # clear folder each time
 
     print("Melody:", melody_metrics)
+    print("Bass:", bass_metrics)
+    print("Chords:", chords_metrics)
     print("Percussion:", percussion_metrics)
     print("Strings:", strings_metrics)
-    print("Bass:", bass_metrics)
     print("Winds:", winds_metrics)
     print("Vocals:", vocals_metrics)
-    print("Chords:", chords_metrics)
 
     np.save(metrics_folder + 'strings_metrics', strings_metrics)
     np.save(metrics_folder + 'chords_metrics', chords_metrics)
